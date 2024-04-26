@@ -4,11 +4,13 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { StoreModule, provideStore } from '@ngrx/store';
 import { counterReducer } from './counter.reducer';
+import { BrowserModule } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore(),
+    BrowserModule,
     importProvidersFrom(StoreModule.forRoot({ count: counterReducer })),
   ],
 };

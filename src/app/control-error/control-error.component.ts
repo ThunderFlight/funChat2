@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   input,
   OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlContainer } from '@angular/forms';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -21,13 +23,13 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './control-error.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ControlErrorComponent implements OnInit, OnDestroy {
+export class ControlErrorComponent implements OnInit {
   private readonly form = inject(ControlContainer);
+  private readonly destroyRef = inject(DestroyRef)
 
   public control = input.required<string>();
 
   public error$ = signal<string>('');
-  private readonly destroy$ = new Subject();
 
   public ngOnInit(): void {
     const control = this.form.control?.get(this.control());
@@ -38,7 +40,7 @@ export class ControlErrorComponent implements OnInit, OnDestroy {
       );
     }
 
-    control.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    control.statusChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (control.dirty && control.errors) {
         const errors = Object.entries(control.errors).at(0);
 
@@ -52,10 +54,5 @@ export class ControlErrorComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next([]);
-    this.destroy$.complete();
   }
 }
