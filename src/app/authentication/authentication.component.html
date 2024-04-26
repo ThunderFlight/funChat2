@@ -1,0 +1,12 @@
+<section class="aunthetication-wrapper">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="aunthetication-form">
+    <label for="Username">Username</label>
+    <input type="text" formControlName="username" name="Username" placeholder="Username">
+    <app-control-error control="username"></app-control-error>
+    <label for="pass">Password</label>
+    <input type="text" formControlName="password" name="pass" placeholder="Password"
+      class="aunthetication--fields field-password">
+    <app-control-error control="password"></app-control-error>
+    <button [disabled]="!isFormValid$()" type="submit" class="aunthetication--button submit-auth">Submit</button>
+  </form>
+</section>
