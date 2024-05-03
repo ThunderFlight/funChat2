@@ -24,7 +24,6 @@ export class AuthenticationComponent {
   private router = inject(Router);
   private fb = inject(NonNullableFormBuilder);
   private authenticationService = inject(ChatServiceService);
-  private userLoginData: AutheticationUser | undefined = undefined;
   public form = this.fb.group({
     username: ['', [Validators.required]],
     password: ['', [passwordValidator('wrong password'), Validators.required]],

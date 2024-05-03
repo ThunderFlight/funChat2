@@ -23,17 +23,24 @@ export class ChatUsersComponent implements OnInit {
     this.authenticationService.getAllUsers().subscribe({
       next: (event) => {
         console.log(event);
+        console.log(event.payload.users);
 
-        if (event.payload.users) {
-          this.store.dispatch(
-            addUsers.addUsers({ users: event.payload.users }),
-          );
+        if (event.payload.user) {
+          console.log(addUsers.addUsers({ users: event.payload.user }));
+          console.log(addUsers.getUsers());
+
+          this.users.push(event.payload.user);
+          console.log(event.payload.user);
+          console.log(this.users);
+        } else {
+          console.log(event);
+          addUsers.addUsers({ users: event.payload.users });
+          console.log(addUsers.addUsers({ users: event.payload.users }));
+
+          addUsers.addUsers({ users: event.payload.users });
+          this.users = event.payload.users;
         }
-        addUsers.addUsers({ users: event.payload.users });
-
-        console.log(event);
-
-        this.users = event.payload.users;
+        console.log(this.users);
       },
     });
   }

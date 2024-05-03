@@ -4,7 +4,7 @@
     <input type="text">
     <button (click)="onSubmit()">Search</button>
   </div>
-  @for(user of users; track user.login) {
+  @for(user of users; track user) {
   <app-user [user]="user"></app-user>
   } @empty {
   <p>friends not found</p>
