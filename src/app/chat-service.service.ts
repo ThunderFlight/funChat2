@@ -1,14 +1,17 @@
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Injectable } from '@angular/core';
+import { User } from './model/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatServiceService {
-  constructor() {}
   private url = 'ws://127.0.0.1:4000';
-  authenticateUser(login: string, password: string): WebSocket {
+  private socket = webSocket(this.url);
+
+  authenticateUser(login: string, password: string): WebSocketSubject<any> {
     const bodyData = {
-      id: '1',
+      id: '2',
       type: 'USER_LOGIN',
       payload: {
         user: {
@@ -18,10 +21,18 @@ export class ChatServiceService {
       },
     };
 
-    const socket = new WebSocket(this.url);
-    socket.onopen = () => {
-      socket.send(JSON.stringify(bodyData));
+    this.socket.next(bodyData);
+
+    return this.socket;
+  }
+
+  getAllUsers(): WebSocketSubject<any> {
+    const bodyData = {
+      id: '1',
+      type: 'USER_ACTIVE',
+      payload: null,
     };
-    return socket;
+    this.socket.next(bodyData);
+    return this.socket;
   }
 }

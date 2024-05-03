@@ -1,5 +1,10 @@
-import { createAction } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { User } from './model/store';
 
-export const increment = createAction('[Counter Component] Increment');
-export const decrement = createAction('[Counter Component] Decrement');
-export const reset = createAction('[Counter Component] Reset');
+export const addUsers = createActionGroup({
+  source: 'Users',
+  events: {
+    'Add users': props<{ users: User }>(),
+    'Get users': emptyProps(),
+  },
+});

@@ -1,11 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import { increment, decrement, reset } from './user.action';
+import { addUsers } from './user.action';
+import { User } from './model/store';
 
-export const initialState = 0;
+export const initialState: User[] = [];
 
-export const userReducer = createReducer(
+export const UserReducer = createReducer(
   initialState,
-  on(increment, (state) => state + 1),
-  on(decrement, (state) => state - 1),
-  on(reset, () => 0),
+  on(addUsers['addUsers'], (state, { users }) => {
+    initialState.push(users);
+    return initialState;
+  }),
+  on(addUsers['getUsers'], (state) => {
+    return initialState;
+  }),
 );

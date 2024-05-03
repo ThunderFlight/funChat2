@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -38,15 +38,13 @@ export class AuthenticationComponent {
       return;
     }
     const { value } = this.form;
-    this.authenticationService.authenticateUser(
-      `${value.username}`,
-      `${value.password}`,
-    ).onmessage = (event) => {
-      this.userLoginData = JSON.parse(event.data);
 
-      if (this.userLoginData?.payload.user?.isLogined) {
-        this.router.navigateByUrl('home/');
-      }
-    };
+    this.authenticationService
+      .authenticateUser(`${value.username}`, `${value.password}`)
+      .subscribe((event) => {
+        if (event?.payload.user?.isLogined) {
+          this.router.navigateByUrl('home/');
+        }
+      });
   }
 }

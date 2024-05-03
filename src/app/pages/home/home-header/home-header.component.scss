@@ -1,0 +1,20 @@
+.header {
+  width: 100%;
+
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .user-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .button-logOut {
+        height: 30px;
+        padding: 5px;
+      }
+    }
+  }
+}
