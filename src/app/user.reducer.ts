@@ -1,14 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import { addUsers } from './user.action';
-import { User } from './model/store';
+import { usersActions } from './user.action';
+import { UserLoginResponse } from './model/store';
 
-export const initialState: User[] = [];
+interface ChatState {
+  users: UserLoginResponse[];
+}
 
-export const UserReducer = createReducer(
+export const initialState: ChatState = {
+  users: [],
+};
+
+export const ChatReducer = createReducer(
   initialState,
-  on(addUsers['addUsers'], (state, { users }) => {
-    state.push(users);
-    return state;
+  on(usersActions.addUsersSuccess, (state, { users }): ChatState => {
+    return { ...state, ...users };
   }),
-  on(addUsers['getUsers'], (state) => ({ ...state })),
+  on(usersActions.getUsers, (state) => state),
 );

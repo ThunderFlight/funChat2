@@ -1,10 +1,5 @@
-export interface AutheticationUser {
+export interface AutheticationUser<T> {
   id: string;
   type: string;
-  payload: {
-    user: {
-      login: string;
-      isLogined: boolean;
-    };
-  };
+  payload: T;
 }

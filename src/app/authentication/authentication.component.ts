@@ -4,13 +4,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ChatServiceService } from '../chat-service.service';
-import { AutheticationUser } from '../model/userAunthetication';
 import { Router } from '@angular/router';
 import { passwordValidator } from '../validators/validators';
 import { ControlErrorComponent } from '../control-error/control-error.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { ChatServiceService } from '../services/ChatService/chat-service.service';
 
 @Component({
   selector: 'app-authentication',
@@ -41,7 +40,7 @@ export class AuthenticationComponent {
     this.authenticationService
       .authenticateUser(`${value.username}`, `${value.password}`)
       .subscribe((event) => {
-        if (event?.payload.user?.isLogined) {
+        if (event.payload?.user?.isLogined) {
           this.router.navigateByUrl('home/');
         }
       });
