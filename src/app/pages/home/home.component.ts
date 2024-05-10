@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { HomeHeaderComponent } from './home-header/home-header.component';
-import { ChatUsersComponent } from './chat-users/chat-users.component';
+import { ChatUsersListComponent } from './chat-users-list/chat-users-list.component';
 import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HomeHeaderComponent, ChatUsersComponent, ChatComponent],
+  imports: [HomeHeaderComponent, ChatUsersListComponent, ChatComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

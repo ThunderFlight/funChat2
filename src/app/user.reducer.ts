@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { usersActions } from './user.action';
-import { UserLoginResponse } from './model/store';
+import { User } from './model/store';
 
 interface ChatState {
-  users: UserLoginResponse[];
+  users: User[];
 }
 
 export const initialState: ChatState = {
@@ -15,5 +15,15 @@ export const ChatReducer = createReducer(
   on(usersActions.addUsersSuccess, (state, { users }): ChatState => {
     return { ...state, ...users };
   }),
-  on(usersActions.getUsers, (state) => state),
+  on(usersActions.getUsers, (state) => {
+    return { ...state };
+  }),
+  on(usersActions.addUsers, (state, { users }) => {
+    if (Array.isArray(users)) {
+      users.forEach((user) => state.users.push(user));
+    } else {
+      state.users.push(users);
+    }
+    return { ...state, ...users };
+  }),
 );

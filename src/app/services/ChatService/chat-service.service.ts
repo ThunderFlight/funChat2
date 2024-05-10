@@ -1,8 +1,9 @@
-import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { v4 as uuidv4 } from 'uuid';
 import { Injectable, inject } from '@angular/core';
 import {
   AllAuntificatedUsers,
+  MessageRequest,
+  MessageResponse,
   UserLoginRequest,
   UserLoginResponse,
 } from '../../model/store';
@@ -15,7 +16,6 @@ import { Observable } from 'rxjs';
 })
 export class ChatServiceService {
   private readonly websockerService = inject(WebSocketService);
-  private readonly url = 'ws://127.0.0.1:4000';
 
   authenticateUser(
     login: string,
@@ -53,5 +53,21 @@ export class ChatServiceService {
     return this.websockerService.getMessage<
       AutheticationUser<AllAuntificatedUsers>
     >();
+  }
+
+  sendMessage(username: string, message: string): Observable<MessageResponse> {
+    const bodyData: MessageRequest = {
+      id: `${uuidv4()}`,
+      type: 'MSG_SEND',
+      payload: {
+        message: {
+          to: username,
+          text: message,
+        },
+      },
+    };
+
+    this.websockerService.sendMessage<MessageRequest>(bodyData);
+    return this.websockerService.getMessage<MessageResponse>();
   }
 }
